@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>deep_sort_ros</name>
+  <version>0.0.0</version>
+  <description>
+    catkin package of https://github.com/nwojke/deep_sort
+  </description>
+
+  <author>Juichung Kuo</author>
+  <maintainer email="jkuo@student.ethz.ch">Juichung Kuo</maintainer>
+  <license>Private</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>catkin_simple</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>message_generation</depend>
+  <depend>message_runtime</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <!-- depend for now, probably makes more sense to depend on some common message package -->
+  <depend>netvlad_tf</depend>
+</package>

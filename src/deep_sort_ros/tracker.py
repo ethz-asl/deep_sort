@@ -72,6 +72,13 @@ class Tracker:
         for track_idx, detection_idx in matches:
             self.tracks[track_idx].update(
                 self.kf, detections[detection_idx])
+        # return the active track ids before the tracks container is modified,
+        # -1 for detection that is not active
+        track_ids = [-1] * len(detections)
+        for track_idx, detection_idx in matches:
+            if (self.tracks[track_idx].is_confirmed()):
+                track_ids[detection_idx] = self.tracks[track_idx].track_id
+        
         for track_idx in unmatched_tracks:
             self.tracks[track_idx].mark_missed()
         for detection_idx in unmatched_detections:
@@ -89,6 +96,8 @@ class Tracker:
             track.features = []
         self.metric.partial_fit(
             np.asarray(features), np.asarray(targets), active_targets)
+
+        return track_ids
 
     def _match(self, detections):
 

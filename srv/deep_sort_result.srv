@@ -1,0 +1,15 @@
+## Request
+
+# Bounding boxes in pixel coordinates
+sensor_msgs/RegionOfInterest[] boxes
+
+# confidence of the bounding boxes
+float32[] confidences
+
+# descriptors corresponding to the boxes
+netvlad_tf/Descriptor[] descriptors
+
+---
+## Response
+# a list of track ids aligned with each box
+int32[] track_ids
