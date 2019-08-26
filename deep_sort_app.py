@@ -1,4 +1,5 @@
 # vim: expandtab:ts=4:sw=4
+#!/usr/bin/env python
 from __future__ import division, print_function, absolute_import
 
 import argparse
@@ -9,9 +10,9 @@ import numpy as np
 
 from application_util import preprocessing
 from application_util import visualization
-from deep_sort import nn_matching
-from deep_sort.detection import Detection
-from deep_sort.tracker import Tracker
+import src.deep_sort_ros.nn_matching as nn_matching
+from src.deep_sort_ros.detection import Detection
+from src.deep_sort_ros.tracker import Tracker
 
 
 def gather_sequence_info(sequence_dir, detection_file):
