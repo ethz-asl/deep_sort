@@ -13,6 +13,7 @@ from deep_sort_ros.tracker import Tracker
 max_cosine_distance = 0.2
 nn_budget = 100
 
+
 class DeepSortNode(object):
     def __init__(self):
         self._metric = nn.NearestNeighborDistanceMetric(
@@ -28,21 +29,35 @@ class DeepSortNode(object):
             rospy.spin()
 
     def _handle_generate_track_id(self, req):
-        print("in handle generate track id")
+        print("in _handle_generate_track_id")
+        min_confidence = req.min_confidence
         detections = []
-        print("# of boxes: ",len(req.boxes))
         for i in range(len(req.boxes)):
             box = req.boxes[i]
             confidence = req.confidences[i]
-            
+
             descriptor = req.descriptors[i].descriptor
         
             detections.append(Detection([box.x_offset, box.y_offset, box.width, box.height],
                                              confidence,
                                              descriptor))
+        
+        # filters the detections by min_confidence
+        accepted_index = []
+        accepted_detections = []
+        for i, d in enumerate(detections):
+            if d.confidence >= min_confidence:
+                accepted_index.append(i)
+                accepted_detections.append(d)
+
         # Update tracker.
         self._tracker.predict()
-        track_ids = self._tracker.update(detections)
+        accepted_track_ids = self._tracker.update(accepted_detections)
+
+        # fills in the track ids of the accepted detections and maintains same dim
+        track_ids = track_ids = [-1] * len(req.boxes)
+        for i, t in zip(accepted_index, accepted_track_ids):
+            track_ids[i] = t
 
         # Create Response
         resp = deep_sort_resultResponse()

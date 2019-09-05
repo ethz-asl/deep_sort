@@ -1,5 +1,8 @@
 ## Request
 
+# minimum confidence threshold for tracking
+float32 min_confidence
+
 # Bounding boxes in pixel coordinates
 sensor_msgs/RegionOfInterest[] boxes
 
